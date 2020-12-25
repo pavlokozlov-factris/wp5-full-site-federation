@@ -51,6 +51,7 @@ module.exports = {
         checkout: "checkout@http://localhost:8082/remoteEntry.js",
         search: "search@http://localhost:8081/remoteEntry.js",
         home: "home@http://localhost:8080/remoteEntry.js",
+        details: "details@http://localhost:8083/remoteEntry.js",
       },
       exposes: {
         "./Search": "./src/SearchContent",

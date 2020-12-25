@@ -5,7 +5,7 @@ const DashboardPlugin = require("@module-federation/dashboard-plugin");
 const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
-    publicPath: "http://localhost:8080/",
+    publicPath: "http://localhost:8083/",
   },
 
   resolve: {
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 8080,
+    port: 8083,
     historyApiFallback: true,
   },
 
@@ -45,17 +45,14 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "home",
+      name: "details",
       filename: "remoteEntry.js",
       remotes: {
         checkout: "checkout@http://localhost:8082/remoteEntry.js",
         search: "search@http://localhost:8081/remoteEntry.js",
-        home: "home@http://localhost:8080/remoteEntry.js",
-        details: "details@http://localhost:8083/remoteEntry.js",
       },
       exposes: {
-        "./Home": "./src/HomeContent",
-        "./Frame": "./src/Frame",
+        "./Details": "./src/DetailsContent",
       },
       shared: {
         ...deps,
@@ -75,7 +72,7 @@ module.exports = {
         source: {
           url: "http://github.com",
         },
-        remote: "http://localhost:8080/remoteEntry.js",
+        remote: "http://localhost:8083/remoteEntry.js",
       },
     }),
     new HtmlWebPackPlugin({
