@@ -30,7 +30,7 @@ const SearchContent = () => {
       >
         {data &&
           data.map((pokemon) => (
-            <Link to={`/details/${pokemon.id}`} style={{ color: "white" }} key={pokemon.name.english}>
+            <Link to={`/${pokemon.id}`} key={pokemon.name.english}>
               <Card style={{ width: "18rem" }}>
                 <Card.Img
                   variant="top"

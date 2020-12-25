@@ -54,7 +54,7 @@ module.exports = {
         details: "details@http://localhost:8083/remoteEntry.js",
       },
       exposes: {
-        "./Search": "./src/SearchContent",
+        "./Search": "./src/SearchFrame",
         "./products": "./src/products",
       },
       shared: {

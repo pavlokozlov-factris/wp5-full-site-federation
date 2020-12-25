@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 const Home = React.lazy(() => import("home/Home"));
 const Search = React.lazy(() => import("search/Search"));
 const Checkout = React.lazy(() => import("checkout/Checkout"));
-const Details = React.lazy(() => import("details/Details"));
+// const Details = React.lazy(() => import("details/Details"));
 
 const HomeRoute = () => (
   <React.Suspense fallback={<div />}>
@@ -24,11 +24,11 @@ const CheckoutRoute = () => (
     <Checkout />
   </React.Suspense>
 );
-const DetailsRoute = () => (
-  <React.Suspense fallback={<div />}>
-    <Details />
-  </React.Suspense>
-);
+// const DetailsRoute = () => (
+//   <React.Suspense fallback={<div />}>
+//     <Details />
+//   </React.Suspense>
+// );
 
 const Frame = ({ items = [], page = "home" }) => (
   <Router>
@@ -81,7 +81,8 @@ const Frame = ({ items = [], page = "home" }) => (
             <CheckoutRoute />
           </Route>
           <Route path="/details/:id">
-            <DetailsRoute />
+            {/* <DetailsRoute /> */}
+            <SearchRoute />
           </Route>
         </Switch>
       </Container>
