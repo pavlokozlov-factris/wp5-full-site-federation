@@ -44,6 +44,7 @@ export const createReducerManager = (initialReducers) => {
       }
       for (let key of Object.keys(newReducers)) {
         delete reducers[key];
+        keysToRemove.push(key);
       }
       combinedReducer = combineReducers(reducers);
     },

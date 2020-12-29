@@ -2,25 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { store, reducerManager } from '../store/store';
 
 const withConnectedReducers = (Component, loadReducers) => (props) => {
-  const [reducers, setReducers] = useState(null);
+  const [areRedcuersLoaded, setAreRedcuersLoaded] = useState(null);
 
   useEffect(() => {
-    let reds = null;
+    let reducers = null;
     loadReducers().then((value) => {
-      reds = value.default;
-      setReducers(reds)
-      reducerManager.addAll(reds);
+      reducers = value.default;
+      setAreRedcuersLoaded(true)
+      reducerManager.addAll(reducers);
       store.dispatch({type: 'REFRESH_STORE'});
     });
 
     return () => {
-      reducerManager.removeAll(reds);
+      reducerManager.removeAll(reducers);
       store.dispatch({type: 'REFRESH_STORE'});
     }
   }, []);
 
   return (
-    reducers ? <Component {...props} /> : <></>
+    areRedcuersLoaded ? <Component {...props} /> : <></>
   )
 }
 
