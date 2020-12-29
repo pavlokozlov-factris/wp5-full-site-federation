@@ -42,7 +42,7 @@ const Cart = ({ items }) => (
   </Table>
 );
 
-const ConnectedCart = connect((state) => state)(Cart);
+const ConnectedCart = connect((state) => state.checkout)(Cart);
 
 const CheckoutButton = ({ onReset }) => (
   <Button onClick={onReset} style={{ width: "100%" }}>

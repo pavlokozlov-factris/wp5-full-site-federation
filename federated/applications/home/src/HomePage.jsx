@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
 import Frame from "./Frame";
-import store from "checkout/store";
+import { store } from './store/store';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 

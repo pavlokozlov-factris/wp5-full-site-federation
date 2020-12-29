@@ -1,23 +1,12 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import rootReducer from './reducers';
 
 import { getCartItems } from "./checkout";
 
-const reducer = (state = { items: [] }, { type, payload }) => {
-  switch (type) {
-    case "SET_ITEMS":
-      return {
-        state,
-        ...payload,
-      };
-    default:
-      return state;
-  }
-};
+// const store = createStore(rootReducer, applyMiddleware(thunk));
 
-const store = createStore(reducer, applyMiddleware(thunk));
-
-store.dispatch((dispatch) =>
+/* store.dispatch((dispatch) =>
   getCartItems().then(({ items }) =>
     dispatch({
       type: "SET_ITEMS",
@@ -26,6 +15,6 @@ store.dispatch((dispatch) =>
       },
     })
   )
-);
+); */
 
-export default store;
+export default {}; // store;

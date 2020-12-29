@@ -15,10 +15,10 @@ const AddToCart = ({ pokemon, addToCart }) => (
 );
 
 const postAddToCart = (pokemon) => (dispatch) =>
-  addToCart(pokemon).then((payload) =>
+  addToCart(pokemon).then(({ items }) =>
     dispatch({
       type: "SET_ITEMS",
-      payload,
+      payload: items,
     })
   );
 

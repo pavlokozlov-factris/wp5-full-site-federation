@@ -4,33 +4,16 @@ import { connect } from "react-redux";
 import { Cart } from "react-bootstrap-icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-const Home = React.lazy(() => import("home/Home"));
-const Search = React.lazy(() => import("search/Search"));
-const Checkout = React.lazy(() => import("checkout/Checkout"));
+import { withLazyComponent } from './hoc/withLazyComponent';
+import { withConnectedReducers } from './hoc/withConnectedReducers';
+
 // const Details = React.lazy(() => import("details/Details"));
 
-const HomeRoute = () => (
-  <React.Suspense fallback={<div />}>
-    <Home />
-  </React.Suspense>
-);
-const SearchRoute = () => (
-  <React.Suspense fallback={<div />}>
-    <Search />
-  </React.Suspense>
-);
-const CheckoutRoute = () => (
-  <React.Suspense fallback={<div />}>
-    <Checkout />
-  </React.Suspense>
-);
-// const DetailsRoute = () => (
-//   <React.Suspense fallback={<div />}>
-//     <Details />
-//   </React.Suspense>
-// );
+const HomeRoute = withLazyComponent(React.lazy(() => import("home/Home")));
+const SearchRoute = withLazyComponent(React.lazy(() => import("search/Search")));
+const CheckoutRoute = withLazyComponent(React.lazy(() => import("checkout/Checkout")));
 
-const Frame = ({ items = [], page = "home" }) => (
+const Frame = ({ checkout = {}, page = "home" }) => (
   <Router>
     <Container>
       <Navbar bg="dark" expand="lg">
@@ -64,7 +47,7 @@ const Frame = ({ items = [], page = "home" }) => (
             <span
               style={{ color: "white", fontWeight: "bold", paddingLeft: 5 }}
             >
-              {items.reduce((a, { count }) => a + count, 0)}
+              {(checkout.items || []).reduce((a, { count }) => a + count, 0)}
             </span>
           </Link>
         </Navbar.Collapse>
