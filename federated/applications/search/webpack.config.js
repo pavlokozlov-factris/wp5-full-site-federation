@@ -56,6 +56,7 @@ module.exports = {
       exposes: {
         "./Search": "./src/SearchFrame",
         "./products": "./src/products",
+        "./reducers": "./src/store/reducers"
       },
       shared: {
         ...deps,

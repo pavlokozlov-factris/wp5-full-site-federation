@@ -10,7 +10,10 @@ import { withConnectedReducers } from './hoc/withConnectedReducers';
 // const Details = React.lazy(() => import("details/Details"));
 
 const HomeRoute = withLazyComponent(React.lazy(() => import("home/Home")));
-const SearchRoute = withLazyComponent(React.lazy(() => import("search/Search")));
+const SearchRoute = withConnectedReducers(
+  withLazyComponent(React.lazy(() => import("search/Search"))),
+  () => import("search/reducers"),
+);
 const CheckoutRoute = withLazyComponent(React.lazy(() => import("checkout/Checkout")));
 
 const Frame = ({ checkout = {}, page = "home" }) => (

@@ -2,11 +2,15 @@ import React from "react";
 import { FormControl, Row, Col, Card } from "react-bootstrap";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 const AddToCart = React.lazy(() => import("checkout/AddToCart"));
 import { getImage, searchPokemon } from "./products";
 
-const SearchContent = () => {
+import { searchAction } from './store/search/actions';
+
+
+const SearchContent = ({logSearch, searchData}) => {
   const [search, searchSet] = React.useState("");
   const { data } = useQuery(["searchPokemon", { q: search }], searchPokemon);
 
@@ -17,9 +21,13 @@ const SearchContent = () => {
           type="text"
           placeholder="Search"
           value={search}
-          onChange={(evt) => searchSet(evt.target.value)}
+          onChange={(evt) => {
+            logSearch(evt.target.value);
+            searchSet(evt.target.value);
+          }}
         />
       </Row>
+      <span>Redux value: {searchData}</span>
       <div
         style={{
           display: "grid",
@@ -30,7 +38,7 @@ const SearchContent = () => {
       >
         {data &&
           data.map((pokemon) => (
-            <Card style={{ width: "18rem" }}>
+            <Card style={{ width: "18rem" }} key={pokemon.id}>
               <Card.Img
                 variant="top"
                 src={getImage(pokemon)}
@@ -62,4 +70,9 @@ const SearchContent = () => {
   );
 };
 
-export default SearchContent;
+export default connect(
+  (state) => state.search,
+  (dispatch) => ({
+    logSearch: (value) => dispatch(searchAction(value)),
+  }),
+)(SearchContent);

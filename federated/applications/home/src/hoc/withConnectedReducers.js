@@ -1,18 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { store, reducerManager } from '../store/store';
 
-const withConnectedReducers = (Component, reducers = null) => (props) => {
+const withConnectedReducers = (Component, loadReducers) => (props) => {
+  const [reducers, setReducers] = useState(null);
+
   useEffect(() => {
-    reducerManager.addAll(reducers);
-    store.dispatch({type: 'TRIGGER_INITIALIZATION'});
+    let reds = null;
+    loadReducers().then((value) => {
+      reds = value.default;
+      setReducers(reds)
+      reducerManager.addAll(reds);
+      store.dispatch({type: 'REFRESH_STORE'});
+    });
 
     return () => {
-      reducerManager.removeAll(reducers);
+      reducerManager.removeAll(reds);
+      store.dispatch({type: 'REFRESH_STORE'});
     }
   }, []);
 
   return (
-    <Component {...props} />
+    reducers ? <Component {...props} /> : <></>
   )
 }
 
