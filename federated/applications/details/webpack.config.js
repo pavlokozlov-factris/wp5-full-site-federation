@@ -15,6 +15,7 @@ module.exports = {
   devServer: {
     port: 8083,
     historyApiFallback: true,
+    openPage: 'search/1'
   },
 
   module: {

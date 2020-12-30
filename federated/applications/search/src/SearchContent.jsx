@@ -50,7 +50,7 @@ const SearchContent = ({logSearch, searchData}) => {
                 }}
               />
               <Card.Body>
-                <Link to={`/${pokemon.id}`} key={pokemon.name.english}>
+                <Link to={`/search/${pokemon.id}`} key={pokemon.name.english}>
                   <Card.Title>{pokemon.name.english}</Card.Title>
                 </Link>
                 <Card.Text>{pokemon.type.join(", ")}</Card.Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import SearchContent from './SearchContent';
 
@@ -11,18 +11,14 @@ const DetailsRoute = () => (
 );
 
 const SearchFrame = () => (
-  <Router
-    basename="/search"
-  >
-    <Switch>
-      <Route path="/" exact>
-        <SearchContent />
-      </Route>
-      <Route path="/:id">
-        <DetailsRoute />
-      </Route>
-    </Switch>
-  </Router>
+  <>
+    <Route path="/search/" exact>
+      <SearchContent />
+    </Route>
+    <Route path="/search/:id">
+      <DetailsRoute />
+    </Route>
+  </>
 );
 
 export default SearchFrame;

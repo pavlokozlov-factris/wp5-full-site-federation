@@ -12,7 +12,7 @@ const DetailsPage = () => (
   <Router>
     <Container>
       <Switch>
-        <Route path="/:id">
+        <Route path="/search/:id">
           <Provider store={store}>
             {/* <Frame page="search" /> */}
             <DetailsContent />
