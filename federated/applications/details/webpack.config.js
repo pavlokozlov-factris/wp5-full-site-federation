@@ -5,7 +5,7 @@ const DashboardPlugin = require("@module-federation/dashboard-plugin");
 const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
-    publicPath: "http://localhost:8083/",
+    publicPath: "http://localhost:8083",
   },
 
   resolve: {

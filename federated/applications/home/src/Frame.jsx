@@ -14,7 +14,10 @@ const SearchRoute = withConnectedReducers(
   withLazyComponent(React.lazy(() => import("search/Search"))),
   () => import("search/reducers"),
 );
-const CheckoutRoute = withLazyComponent(React.lazy(() => import("checkout/Checkout")));
+const CheckoutRoute = withConnectedReducers(
+  withLazyComponent(React.lazy(() => import("checkout/Checkout"))),
+  () => import("checkout/reducers"),
+);
 
 const Frame = ({ checkout = {}, page = "home" }) => (
   <Router>

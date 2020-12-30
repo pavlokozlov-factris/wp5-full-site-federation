@@ -1,14 +1,4 @@
-const checkoutReducer = (state = { items: [] }, { type, payload }) => {
-  switch (type) {
-    case "SET_ITEMS":
-      return {
-        ...state,
-        items: payload,
-      };
-    default:
-      return state;
-  }
-};
+import { reducer as checkoutReducer } from './store/checkout/reducer';
 
 const rootReducer = {
   checkout: checkoutReducer
