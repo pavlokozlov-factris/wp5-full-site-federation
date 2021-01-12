@@ -77,10 +77,6 @@ const Frame = ({ checkout = {}, page = "home" }) => {
             <Route path="/checkout">
               <CheckoutRoute />
             </Route>
-            <Route path="/details/:id">
-              {/* <DetailsRoute /> */}
-              <SearchRoute />
-            </Route>
           </Switch>
         </Container>
       </Container>
