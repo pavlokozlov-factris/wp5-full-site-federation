@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import { addToCart } from "./checkout";
+import {CHECKOUT_SET_ITEMS} from './store/checkout/actionConsts';
 
 const AddToCart = ({ pokemon, addToCart }) => (
   <Button
@@ -17,7 +18,7 @@ const AddToCart = ({ pokemon, addToCart }) => (
 const postAddToCart = (pokemon) => (dispatch) =>
   addToCart(pokemon).then(({ items }) =>
     dispatch({
-      type: "SET_ITEMS",
+      type: CHECKOUT_SET_ITEMS,
       payload: items,
     })
   );

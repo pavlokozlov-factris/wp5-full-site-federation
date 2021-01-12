@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-// import checkoutReducers from "checkout/reducers";
+import checkoutReducers from "checkout/reducers";
 import { createReducerManager } from './reducerManager';
 import { reducers } from './reducers';
 
 const configureStore = () => {
   const reducerManager = createReducerManager({
     ...reducers,
-    // ...checkoutReducers
+    ...checkoutReducers
   });
 
   const store = createStore(
