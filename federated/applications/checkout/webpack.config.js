@@ -57,6 +57,7 @@ module.exports = {
         "./AddToCart": "./src/AddToCart",
         "./checkout": "./src/checkout",
         "./storeActions": "./src/store/checkout/actions",
+        "./store": "./src/store",
         "./reducers": "./src/reducers"
       },
       shared: {
