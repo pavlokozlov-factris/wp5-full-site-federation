@@ -6,6 +6,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import { withLazyComponent } from './hoc/withLazyComponent';
 import { withConnectedReducers } from './hoc/withConnectedReducers';
+import FederatedComponent from './FederatedComponent';
+
+import { mount as loginMount } from 'login/Login';
 
 // const Details = React.lazy(() => import("details/Details"));
 
@@ -86,9 +89,9 @@ const Frame = ({ checkout = {}, page = "home" }) => {
             <Route path="/checkout">
               <CheckoutRoute />
             </Route>
-            <Route path="/login">
-              <LoginRoute />
-            </Route>
+            <FederatedComponent
+              mount={loginMount}
+            />
           </Switch>
         </Container>
       </Container>

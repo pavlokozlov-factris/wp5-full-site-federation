@@ -1,7 +1,5 @@
 import React from "react";
-import { FormControl, Row, Col, Card, Button } from "react-bootstrap";
-import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { FormControl, Row, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import { setUsername } from './store/login/actions';
