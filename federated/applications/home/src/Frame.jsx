@@ -14,6 +14,10 @@ const SearchRoute = withConnectedReducers(
   withLazyComponent(React.lazy(() => import("search/Search"))),
   () => import("search/reducers"),
 );
+const LoginRoute = withConnectedReducers(
+  withLazyComponent(React.lazy(() => import("login/Login"))),
+  () => import("login/reducers"),
+);
 const CheckoutRoute = withLazyComponent(React.lazy(() => import("checkout/Checkout")));
 
 const Frame = ({ checkout = {}, page = "home" }) => {
@@ -39,6 +43,11 @@ const Frame = ({ checkout = {}, page = "home" }) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
+              <Nav.Link>
+                <Link to="/login" style={{ color: "white" }}>
+                  Login
+                </Link>
+              </Nav.Link>
               <Nav.Link>
                 <Link to="/" style={{ color: "white" }}>
                   Home
@@ -76,6 +85,9 @@ const Frame = ({ checkout = {}, page = "home" }) => {
             </Route>
             <Route path="/checkout">
               <CheckoutRoute />
+            </Route>
+            <Route path="/login">
+              <LoginRoute />
             </Route>
           </Switch>
         </Container>
