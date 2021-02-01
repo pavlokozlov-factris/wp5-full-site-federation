@@ -89,9 +89,12 @@ const Frame = ({ checkout = {}, page = "home" }) => {
             <Route path="/checkout">
               <CheckoutRoute />
             </Route>
-            <FederatedComponent
-              mount={loginMount}
-            />
+            <Route path="/login">
+              <FederatedComponent
+                mount={loginMount}
+                loadReducers={() => import("login/reducers")}
+              />
+            </Route>
           </Switch>
         </Container>
       </Container>

@@ -9,7 +9,7 @@ const configureStore = () => {
   const reducerManager = createReducerManager({
     ...reducers,
     ...checkoutReducers,
-    ...loginReducers
+    // ...loginReducers
   });
 
   const store = createStore(

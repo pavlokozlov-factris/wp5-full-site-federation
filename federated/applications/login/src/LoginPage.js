@@ -17,4 +17,4 @@ const LoginPage = () => (
   </Provider>
 );
 
-ReactDOM.render(<LoginPage />, document.getElementById("app"));
+ReactDOM.render(<LoginPage />, document.getElementById("login-root"));

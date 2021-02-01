@@ -6,27 +6,45 @@ import { Provider } from 'react-redux';
 
 import LoginContent from './LoginContent';
 
-const LoginFrame = ({ history, store }) => {
+const LoginFrame = ({ initialHistory, store }) => {
     const LoginRoutes = () => (
         <>
             <Route path="/login/" exact>
                 <LoginContent />
             </Route>
             <Route path="/login/:id">
-                <LoginContent />
+                <div>hello world</div>
             </Route>
         </>
     );
 
-    return history
-        ? (
-            <Provider store={store}>
-                <Router history={history} basename="/login">
-                    <LoginRoutes />
-                </Router>
-            </Provider>
+    const HistoryWrapper = !!initialHistory
+      ? ({ children }) => (
+        <Router history={initialHistory} basename="/login">
+          {children}
+        </Router>
+      )
+      : ({ children }) => <>{children}</>
+    
+    const Wrapper = !!store
+        ? ({ children }) => (
+          <Provider store={store}>
+            <HistoryWrapper>
+              {children}
+            </HistoryWrapper>
+          </Provider>
         )
-        : <LoginRoutes />
+        : ({children}) => (
+          <HistoryWrapper>
+            {children}
+          </HistoryWrapper>
+        )
+    
+    return (
+      <Wrapper>
+        <LoginRoutes />
+      </Wrapper>
+    )
 }
 
 const mount = (el, { onNavigate, defaultHistory, initialPath, store }) => {
@@ -40,7 +58,7 @@ const mount = (el, { onNavigate, defaultHistory, initialPath, store }) => {
       history.listen(onNavigate)
     }
   
-    render(<LoginFrame history={history} store={store} />, el)
+    render(<LoginFrame initialHistory={history} store={store} />, el)
   
     return {
       onContainerNavigate({ pathname }) {
@@ -51,13 +69,14 @@ const mount = (el, { onNavigate, defaultHistory, initialPath, store }) => {
     }
 }
 
-if (process.env.NODE_ENV === 'development') {
-    const devRoot = document.getElementById('login-root')
+// console.log({ aa: process.env.NODE_ENV});
+// if (process.env.NODE_ENV === 'development') {
+//     const devRoot = document.getElementById('login-root')
 
-    if (devRoot) {
-        mount(devRoot, { defaultHistory: createBrowserHistory() })
-    }
-}
+//     if (devRoot) {
+//         mount(devRoot, { defaultHistory: createBrowserHistory() })
+//     }
+// }
 
 export { mount }
 
