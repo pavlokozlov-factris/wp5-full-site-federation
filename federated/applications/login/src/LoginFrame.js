@@ -5,6 +5,7 @@ import { createMemoryHistory, createBrowserHistory } from 'history'
 import { Provider } from 'react-redux';
 
 import LoginContent from './LoginContent';
+let historyUnlisten = null;
 
 const LoginFrame = ({ initialHistory, store }) => {
     const LoginRoutes = () => (
@@ -55,7 +56,7 @@ const mount = (el, { onNavigate, defaultHistory, initialPath, store }) => {
       })
   
     if (typeof onNavigate === 'function') {
-      history.listen(onNavigate)
+      historyUnlisten = history.listen(onNavigate)
     }
   
     render(<LoginFrame initialHistory={history} store={store} />, el)
@@ -69,6 +70,11 @@ const mount = (el, { onNavigate, defaultHistory, initialPath, store }) => {
     }
 }
 
+const unMount = () => {
+  console.log('unmounting');
+  historyUnlisten && historyUnlisten();
+}
+
 // console.log({ aa: process.env.NODE_ENV});
 // if (process.env.NODE_ENV === 'development') {
 //     const devRoot = document.getElementById('login-root')
@@ -78,6 +84,6 @@ const mount = (el, { onNavigate, defaultHistory, initialPath, store }) => {
 //     }
 // }
 
-export { mount }
+export { mount, unMount }
 
 export default LoginFrame;

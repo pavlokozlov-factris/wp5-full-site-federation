@@ -1,30 +1,34 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useStore } from 'react-redux';
 import { reducerManager } from './store/store';
 
+
 const FederatedComponent = ({ mount, unMount, loadReducers }) => {
+  const [areRedcuersLoaded, setAreRedcuersLoaded] = useState(false);
   const ref = useRef(null)
   const history = useHistory()
   const store = useStore()
 
   useEffect(() => {
-    const { onContainerNavigate } = mount(ref.current, {
-      initialPath: history.location.pathname,
-      onNavigate: ({ pathname }) => {
-        if (history.location.pathname !== pathname) {
-          history.push(pathname)
-        }
-      },
-      store
-    })
+    if (areRedcuersLoaded || !loadReducers) {
+      const { onContainerNavigate } = mount(ref.current, {
+        initialPath: history.location.pathname,
+        onNavigate: ({ pathname }) => {
+          if (history.location.pathname !== pathname) {
+            history.push(pathname)
+          }
+        },
+        store
+      })
 
-    if (typeof onContainerNavigate === 'function') {
-      history.listen(onContainerNavigate)
+      if (typeof onContainerNavigate === 'function') {
+        history.listen(onContainerNavigate)
+      }
     }
 
-    return () => unMount && unMount();
-  }, [])
+    
+  }, [areRedcuersLoaded, loadReducers])
 
   useEffect(() => {
     let reducers = null;
@@ -40,11 +44,15 @@ const FederatedComponent = ({ mount, unMount, loadReducers }) => {
         reducerManager.addAll(reducers);
         store.dispatch({type: 'REFRESH_STORE'});
       });
+      
     }
 
     return () => {
-      reducerManager.removeAll(reducers);
-      store.dispatch({type: 'REFRESH_STORE'});
+      if (loadReducers) {
+        reducerManager.removeAll(reducers);
+        store.dispatch({type: 'REFRESH_STORE'});
+      }
+      if (unMount) unMount();
     }
   }, []);
 

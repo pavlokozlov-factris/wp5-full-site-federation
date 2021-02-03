@@ -34,7 +34,7 @@ const LoginContent = ({username, setUsername}) => {
         </Link>
       </Row>
       <Row style={{ paddingTop: "1em" }}>
-        <a href="/search" style={{ color: "black" }}>
+        <a href="/search" style={{ color: "black" }} onClick={e => e.preventDefault()}>
           search
         </a>
       </Row>
