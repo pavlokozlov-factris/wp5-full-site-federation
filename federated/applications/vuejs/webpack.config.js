@@ -2,10 +2,10 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const DashboardPlugin = require("@module-federation/dashboard-plugin");
 
-const deps = require("./package.json").dependencies;
+// const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
-    publicPath: "http://localhost:8080/",
+    publicPath: "http://localhost:8085/",
   },
 
   resolve: {
@@ -14,8 +14,9 @@ module.exports = {
   },
 
   devServer: {
-    port: 8080,
+    port: 8085,
     historyApiFallback: true,
+    openPage: 'vuejs'
   },
 
   module: {
@@ -46,30 +47,16 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "home",
+      name: "vuejs",
       filename: "remoteEntry.js",
       remotes: {
-        checkout: "checkout@http://localhost:8082/remoteEntry.js",
-        login: "login@http://localhost:8084/remoteEntry.js",
-        vuejs: "vuejs@http://localhost:8085/remoteEntry.js",
-        search: "search@http://localhost:8081/remoteEntry.js",
-        home: "home@http://localhost:8080/remoteEntry.js",
-        details: "details@http://localhost:8083/remoteEntry.js",
+        // home: "home@http://localhost:8080/remoteEntry.js"
+        // checkout: "checkout@http://localhost:8082/remoteEntry.js",
+        // search: "search@http://localhost:8085/remoteEntry.js",
+        // details: "details@http://localhost:8083/remoteEntry.js",
       },
       exposes: {
-        "./Home": "./src/HomeContent",
-        "./Frame": "./src/Frame",
-      },
-      shared: {
-        ...deps,
-        react: {
-          singleton: true,
-          requiredVersion: deps.react,
-        },
-        "react-dom": {
-          singleton: true,
-          requiredVersion: deps["react-dom"],
-        },
+        "./Vuejs": "./src/VuejsFrame"
       },
     }),
     new DashboardPlugin({
@@ -78,7 +65,7 @@ module.exports = {
         source: {
           url: "http://github.com",
         },
-        remote: "http://localhost:8080/remoteEntry.js",
+        remote: "http://localhost:8082/remoteEntry.js",
       },
     }),
     new HtmlWebPackPlugin({

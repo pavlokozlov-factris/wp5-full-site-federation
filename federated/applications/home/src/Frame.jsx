@@ -6,6 +6,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import { withLazyComponent } from './hoc/withLazyComponent';
 import { withConnectedReducers } from './hoc/withConnectedReducers';
+import FederatedComponent from './FederatedComponent';
+
+import { mount as loginMount, unMount as loginUnmount } from 'login/Login';
+import { mount as vuejsMount } from 'vuejs/Vuejs';
 
 // const Details = React.lazy(() => import("details/Details"));
 
@@ -14,7 +18,12 @@ const SearchRoute = withConnectedReducers(
   withLazyComponent(React.lazy(() => import("search/Search"))),
   () => import("search/reducers"),
 );
+const LoginRoute = withConnectedReducers(
+  withLazyComponent(React.lazy(() => import("login/Login"))),
+  () => import("login/reducers"),
+);
 const CheckoutRoute = withLazyComponent(React.lazy(() => import("checkout/Checkout")));
+// const VueRoute = withLazyComponent(React.lazy(() => import("vuejs/Vuejs")));
 
 const Frame = ({ checkout = {}, page = "home" }) => {
   const dispatch = useDispatch();
@@ -39,6 +48,16 @@ const Frame = ({ checkout = {}, page = "home" }) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
+              <Nav.Link>
+                <Link to="/login" style={{ color: "white" }}>
+                  Login
+                </Link>
+              </Nav.Link>
+              <Nav.Link>
+                <Link to="/vuejs" style={{ color: "white" }}>
+                  Vuejs
+                </Link>
+              </Nav.Link>
               <Nav.Link>
                 <Link to="/" style={{ color: "white" }}>
                   Home
@@ -76,6 +95,21 @@ const Frame = ({ checkout = {}, page = "home" }) => {
             </Route>
             <Route path="/checkout">
               <CheckoutRoute />
+            </Route>
+            {/* <Route path="/vue">
+              <VueRoute />
+            </Route> */}
+            <Route path="/login">
+              <FederatedComponent
+                mount={loginMount}
+                unMount={loginUnmount}
+                loadReducers={() => import("login/reducers")}
+              />
+            </Route>
+            <Route path="/vuejs">
+              <FederatedComponent
+                mount={vuejsMount}
+              />
             </Route>
           </Switch>
         </Container>
