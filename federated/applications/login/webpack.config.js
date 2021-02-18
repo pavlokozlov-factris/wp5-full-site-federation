@@ -77,7 +77,7 @@ module.exports = {
         source: {
           url: "http://github.com",
         },
-        remote: "http://localhost:8082/remoteEntry.js",
+        remote: "http://localhost:8084/remoteEntry.js",
       },
     }),
     new HtmlWebPackPlugin({

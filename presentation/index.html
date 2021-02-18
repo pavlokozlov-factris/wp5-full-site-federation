@@ -1,0 +1,324 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>proof of concept</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+
+		<style>
+			.contains-iframe h1,
+			.contains-iframe h2,
+			.contains-iframe h3,
+			.contains-iframe h4,
+			.contains-iframe ul,
+			.contains-iframe li { color: rgb(2, 107, 255) }
+
+			.reveal h1,
+			.reveal h2,
+			.reveal h3,
+			.reveal h4 { text-transform: unset;}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-transition="slide">
+					<h1>micro-frontends poc</h1>
+				</section>
+				<section data-transition="slide">
+					<h3>motivation</h3>
+					<p>
+						<ul>
+							<li>able to work on separate apps simultaniously without affecting functionality on other parts of the platform</li>
+							<li>able to create micro frontends independent of framework (react, vuejs, etc)</li>
+						</ul>
+					</p>
+				</section>
+				<section data-transition="slide">
+					<h1>different solutions</h1>
+				</section>
+				<section data-transition="slide">
+					<h3>monolith architecture</h3>
+					<img src="images/download1.png" style="height: 500px;">
+				</section>
+				<section data-transition="slide">
+					<h3>micro-frontend architecture</h3>
+					<img src="images/download2.png" style="height: 500px;">
+				</section>
+				<section data-transition="slide">
+					<h3>private npm registry</h3>
+					<p>
+						<ul>
+							<li>private to view</li>
+							<li>private to consume</li>
+							<li>version control</li>
+						</ul>
+					</p>
+				</section>
+				<section data-transition="slide">
+					<h3>federated module</h3>
+					<p>
+						<ul>
+							<li>
+								<span>pros:</span>
+								<ul>
+									<li>able to create component independently</li>
+									<li>automatically updates with new release even if container app hasnt been updated</li>
+								</ul>
+							</li>
+							<li>
+								<span>cons:</span>
+								<ul>
+									<li>available over the internet</li>
+								</ul>
+							</li>
+						</ul>
+					</p>
+				</section>
+				<section data-transition="slide">
+					<section data-transition="slide">
+						<h2>federated module demo</h2>
+					</section>
+					<section class="contains-iframe" data-background-iframe="http://localhost:8080/" data-transition="slide">
+						<h3>federated module demo</h3>
+					</section>
+					<section class="contains-iframe" data-background-iframe="http://localhost:8080/login" data-transition="slide">
+						<h3>login page</h3>
+						<ul>
+							<li>can manage its own state</li>
+							<li>can use redux from container</li>
+							<li>can have subroutes within microfrontend</li>
+						</ul>
+					</section>
+					<section class="contains-iframe" data-background-iframe="http://localhost:8080/vuejs" data-transition="slide">
+						<h3>vue.js page</h3>
+						<ul>
+							<li>supports different frontend frameworks</li>
+							<li>responsible for managing its own state/api interactions</li>
+						</ul>
+					</section>
+					<section data-transition="slide">
+						<h3>micro-frontend architecture</h3>
+						<img src="images/download2.png" style="height: 500px;">
+					</section>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="fade">
+					<h3>webpack: container-app</h3>
+					<ul>
+						<pre data-id="code">
+							<code data-line-numbers class="hljsx" data-trim>
+								new ModuleFederationPlugin({
+									name: "container-app",
+									filename: "remoteEntry.js",
+									remotes: {
+									  login: "login@http://localhost:8084/remoteEntry.js"
+									},
+									exposes: {
+									  "./Home": "./src/HomeContent",
+									},
+									shared: {
+									  ...deps,
+									  react: {
+										singleton: true,
+										requiredVersion: deps.react,
+									  },
+									  "react-dom": {
+										singleton: true,
+										requiredVersion: deps["react-dom"],
+									  },
+									},
+								  })
+							</code>
+						</pre>
+					</ul>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="fade">
+					<h3>webpack: login-app</h3>
+					<ul>
+						<pre data-id="code">
+							<code data-line-numbers class="hljsx" data-trim>
+								new ModuleFederationPlugin({
+									name: "login",
+									filename: "remoteEntry.js",
+									remotes: {
+									  sub-app: "sub-app@http://localhost:8084/remoteEntry.js"
+									},
+									exposes: {
+									  "./Login": "./src/LoginContent",
+									},
+									shared: {
+									  ...deps,
+									  react: {
+										singleton: true,
+										requiredVersion: deps.react,
+									  },
+									  "react-dom": {
+										singleton: true,
+										requiredVersion: deps["react-dom"],
+									  },
+									},
+								  })
+							</code>
+						</pre>
+					</ul>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="fade">
+					<h3>webpack: login-app</h3>
+					<ul>
+						<pre data-id="code">
+							<code data-line-numbers class="hljsx" data-trim>
+								new ModuleFederationPlugin({
+									name: "login",
+									filename: "remoteEntry.js",
+									remotes: {
+									  sub-app: "sub-app@http://localhost:8084/remoteEntry.js"
+									},
+									exposes: {
+									  "./Login": "./src/LoginContent",
+									  "./reducer": "./src/reducer",
+									},
+									shared: {
+									  ...deps,
+									  react: {
+										singleton: true,
+										requiredVersion: deps.react,
+									  },
+									  "react-dom": {
+										singleton: true,
+										requiredVersion: deps["react-dom"],
+									  },
+									},
+								  })
+							</code>
+						</pre>
+					</ul>
+				</section>
+				<section data-transition="slide">
+					<h3>how does it work: sub-app</h3>
+					<ul>
+						<pre data-id="code">
+							<code data-line-numbers class="hljsx" data-trim>
+								// micro-frontends expose mount/unmount methods
+
+								const mount = (el,
+									{
+										onNavigate,
+										defaultHistory,
+										initialPath,
+										store
+									}) => {
+									
+									// do stuff with props passed in
+
+									ReactDOM.render(&lt;loginApp history={defaultHistory} store={store} /&gt;, el)
+								}
+
+								const unMount = () => {
+									// remove event listeners
+									// ...etc
+								}
+
+								export { mount, unMount }
+							</code>
+						</pre>
+					</ul>
+				</section>
+
+				<section data-auto-animate data-auto-animate-unmatched="fade">
+					<h3>how does it work: container-app</h3>
+					<ul>
+						<pre data-id="code">
+							<code data-line-numbers class="hljsx" data-trim>
+								// container uses shared component for rendering micro-frontend
+
+								&lt;Router&gt;
+									&lt;Route path="/login"&gt;
+										&lt;FederatedComponent
+											mount={loginMount}
+										/&gt;
+									&lt;/Route&gt;
+									&lt;Route path="/invoices"&gt;
+										&lt;Invoices /&gt;
+									&lt;/Route&gt;
+								&lt;/Router&gt;
+							</code>
+						</pre>
+					</ul>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="fade">
+					<h3>how does it work: container-app</h3>
+					<ul>
+						<pre data-id="code">
+							<code data-line-numbers class="hljsx" data-trim>
+								// container uses shared component for rendering micro-frontend
+
+								&lt;Router&gt;
+									&lt;Route path="/login"&gt;
+										&lt;FederatedComponent
+											mount={loginMount}
+											unMount={loginUnmount}
+										/&gt;
+									&lt;/Route&gt;
+									&lt;Route path="/invoices"&gt;
+										&lt;Invoices /&gt;
+									&lt;/Route&gt;
+								&lt;/Router&gt;
+							</code>
+						</pre>
+					</ul>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="fade">
+					<h3>how does it work: container-app</h3>
+					<ul>
+						<pre data-id="code">
+							<code data-line-numbers class="hljsx" data-trim>
+								// container uses shared component for rendering micro-frontend
+
+								&lt;Router&gt;
+									&lt;Route path="/login"&gt;
+										&lt;FederatedComponent
+											mount={loginMount}
+											unMount={loginUnmount}
+											loadReducers={() =&gt; import("login/reducers")}
+										/&gt;
+									&lt;/Route&gt;
+									&lt;Route path="/invoices"&gt;
+										&lt;Invoices /&gt;
+									&lt;/Route&gt;
+								&lt;/Router&gt;
+							</code>
+						</pre>
+					</ul>
+				</section>
+
+				<section class="contains-iframe" data-background-iframe="http://localhost:8080/search" data-auto-animate data-auto-animate-unmatched="fade">
+					<h3>questions?</h3>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
