@@ -103,7 +103,7 @@ const Frame = ({ checkout = {}, page = "home" }) => {
               <FederatedComponent
                 mount={loginMount}
                 unMount={loginUnmount}
-                loadReducers={() => import("login/reducers")}
+                // loadReducers={() => import("login/reducers")}
               />
             </Route>
             <Route path="/vuejs">

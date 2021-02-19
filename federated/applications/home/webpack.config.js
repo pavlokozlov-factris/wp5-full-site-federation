@@ -76,7 +76,7 @@ module.exports = {
       dashboardURL: "http://localhost:3000/api/update",
       metadata: {
         source: {
-          url: "http://github.com",
+          url: "avlokozlov-factris/wp5-module-federation-poc.git",
         },
         remote: "http://localhost:8080/remoteEntry.js",
       },
